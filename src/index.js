@@ -14,15 +14,30 @@
 // reportWebVitals();
 
 import { createStore } from "redux"
+const initialState = {
+  result: 15000,
+  value: [100]
+}
 
-
-const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD":
-      state += action.payload;
+      state = {
+        // value: state.value 
+        ...state,
+        result: state.result += action.payload,
+        value: [...state.value, action.payload]
+
+      }
       break;
     case "SUBTRACT":
-      state -= action.payload;
+      state = {
+        // value: state.value 
+        ...state,
+        result: state.result += action.payload,
+        value: [...state.value, action.payload]
+
+      }
       break;
     default:
   }
@@ -30,7 +45,7 @@ const reducer = (state, action) => {
 }
 
 
-const store = createStore(reducer, 15000);
+const store = createStore(reducer);
 
 // subscribe == update state value
 store.subscribe(() => {
@@ -40,10 +55,9 @@ store.subscribe(() => {
 // manage any change action
 store.dispatch({
   type: "ADD",
-  payload: 500
+  payload: 25000
 });
-
 store.dispatch({
   type: "SUBTRACT",
-  payload: 500
+  payload: 35000
 });
