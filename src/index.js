@@ -13,7 +13,7 @@
 
 // reportWebVitals();
 
-import { createStore, combineReducers } from "redux"
+import { createStore, combineReducers, applyMiddleware } from "redux"
 const initialState = {
   result: 15000,
   value: [100]
@@ -65,8 +65,11 @@ const employeeReducer = (state = initialState, action) => {
   return state;
 }
 
-
-const store = createStore(combineReducers({ employeeReducer, userReducer }));
+const myLogger = (store) => (next) => (action) => {
+  console.log("Log Action: ", action);
+  next(action);
+}
+const store = createStore(combineReducers({ employeeReducer, userReducer }), {}, applyMiddleware(myLogger));
 
 // subscribe == update state value
 store.subscribe(() => {
