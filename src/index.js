@@ -13,13 +13,34 @@
 
 // reportWebVitals();
 
-import { createStore } from "redux"
+import { createStore, combineReducers } from "redux"
 const initialState = {
   result: 15000,
   value: [100]
 }
 
-const reducer = (state = initialState, action) => {
+// userRedcuer
+const userReducer = (state = { name: "khamla", age: 15 }, action) => {
+  switch (action.type) {
+    case "setName":
+      state = {
+        ...state,
+        name: action.payload
+      }
+      break;
+    case "setAge":
+      state = {
+        ...state,
+        age: action.payload
+      }
+      break;
+    default:
+  }
+  return state;
+}
+
+// employeeReducer
+const employeeReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD":
       state = {
@@ -45,7 +66,7 @@ const reducer = (state = initialState, action) => {
 }
 
 
-const store = createStore(reducer);
+const store = createStore(combineReducers({ employeeReducer, userReducer }));
 
 // subscribe == update state value
 store.subscribe(() => {
@@ -57,7 +78,8 @@ store.dispatch({
   type: "ADD",
   payload: 25000
 });
+
 store.dispatch({
-  type: "SUBTRACT",
-  payload: 35000
-});
+  type: "setName",
+  payload: 200
+})
