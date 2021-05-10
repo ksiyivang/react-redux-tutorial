@@ -1,19 +1,14 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import './index.css';
-// import App from './App';
-// import reportWebVitals from './reportWebVitals';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { Provider } from "react-redux"
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
 
-// reportWebVitals();
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-import { createStore, combineReducers, applyMiddleware } from "redux"
+
 const initialState = {
   result: 15000,
   value: [100]
@@ -69,20 +64,18 @@ const myLogger = (store) => (next) => (action) => {
   console.log("Log Action: ", action);
   next(action);
 }
-const store = createStore(combineReducers({ employeeReducer, userReducer }), {}, applyMiddleware(myLogger));
+const store = createStore(combineReducers({ emp: employeeReducer, user: userReducer }), {}, applyMiddleware(myLogger));
 
 // subscribe == update state value
 store.subscribe(() => {
   console.log("Update store: ", store.getState());
 })
 
-// manage any change action
-store.dispatch({
-  type: "ADD",
-  payload: 25000
-});
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root')
+);
 
-store.dispatch({
-  type: "setName",
-  payload: 200
-})
+reportWebVitals();
